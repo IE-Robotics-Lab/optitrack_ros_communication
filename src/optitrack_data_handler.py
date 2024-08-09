@@ -13,21 +13,24 @@ class desired_output:
     x: float
     y: float
     z: float
+    w: float
 
     def __init__(self):
         self.x = 0
         self.y = 0
         self.z = 0
+        self.w = 0
 
     def create(self, data, euler: list):
         " Use this function to change transformations to the data"
         self.x = data.pose.position.x * 100
         self.y = data.pose.position.y * 100
-        self.z = euler[2]
+        self.z = data.pose.position.z * 100
+        self.w = euler[2]
         return self
 
 sock = None
-last_position = {'x': 0.0, 'y':0.0, 'z':0.0}
+last_position = {'x': 0.0, 'y':0.0, 'z':0.0, 'w':0.0}
 
 
 def quaternion_to_euler(data: PoseStamped):
@@ -61,7 +64,7 @@ def send_udp_message(host, port, message):
 
 def has_position_changed(new_position, threshold=0.001):
     global last_position
-    for axis in ['x', 'y', 'z']:
+    for axis in ['x', 'y', 'z', 'w']:
         if last_position[axis] is not None:
             if abs(new_position[axis] - last_position[axis]) > threshold:
                 return True
@@ -81,13 +84,14 @@ def callback(data):
     new_position = {
         'x': round(data.pose.position.x,4),
         'y': round(data.pose.position.y,4),
-        'z': round(data.pose.position.z,4)
+        'z': round(data.pose.position.z,4),
+        'w': round(data.pose.orientation.w,4)
     }
 
     if has_position_changed(new_position):
         data = update_position(new_position, data)
         desired_output_t = desired_output().create(data, quaternion_to_euler(data))
-        message = f"[{desired_output_t.x},{desired_output_t.y},{desired_output_t.z}]"
+        message = f"[{desired_output_t.x},{desired_output_t.y},{desired_output_t.z},{desired_output_t.w}]"
         send_udp_message(host, port, message)
 
 def listener():
