@@ -2,6 +2,7 @@
 
 import rospy
 import roslaunch
+import os
 
 def main():
     rospy.init_node('generate_udp_nodes', anonymous=True)
@@ -10,6 +11,7 @@ def main():
     base_id = rospy.get_param('~base_id', 0)
     ip = rospy.get_param('~ip', '10.205.3.224')
     base_port = rospy.get_param('~base_port', 9876)
+    pid = os.getpid()
 
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
     roslaunch.configure_logging(uuid)
@@ -20,7 +22,7 @@ def main():
         node = roslaunch.core.Node(
             package='optitrack_ros_communication',
             node_type='optitrack_data_handler.py',
-            name=f'optitrack_data_handler_{i}',
+            name=f'optitrack_data_handler_{i}_{pid}',
             output='screen',
             namespace='optitrack',
             args=f'_host:={ip} _port:={base_port + i} _body:=umh_{i}'
