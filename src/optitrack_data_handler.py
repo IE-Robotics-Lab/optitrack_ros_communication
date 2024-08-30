@@ -4,7 +4,6 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from dataclasses import dataclass
 import socket
-import time
 import math
 import numpy as np
 
@@ -95,10 +94,11 @@ def callback(data):
         send_udp_message(host, port, message)
 
 def listener():
-    rospy.init_node('optitrack_data_handler', anonymous=True)
+    rospy.init_node('optitrack_data', anonymous=True)
     name = rospy.get_param('~body')
+    namespace = rospy.get_param('~namespace')
     rospy.Rate(120)
-    rospy.Subscriber(f"/optitrack/{name}/pose", PoseStamped, callback)
+    rospy.Subscriber(f"/{namespace}/{name}/pose", PoseStamped, callback)
     rospy.spin()
         
 if __name__ == '__main__':

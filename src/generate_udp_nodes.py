@@ -11,6 +11,7 @@ def main():
     base_id = rospy.get_param('~base_id', 0)
     ip = rospy.get_param('~ip', '10.205.3.224')
     base_port = rospy.get_param('~base_port', 9876)
+    namespace = rospy.get_param('~namespace', 'optitrack')
     pid = os.getpid()
 
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
@@ -22,10 +23,10 @@ def main():
         node = roslaunch.core.Node(
             package='optitrack_ros_communication',
             node_type='optitrack_data_handler.py',
-            name=f'optitrack_data_handler_{i}_{pid}',
+            name=f'optitrack_data_{i}_{pid}',
             output='screen',
-            namespace='optitrack',
-            args=f'_host:={ip} _port:={base_port + i} _body:=umh_{i}'
+            namespace=f'{namespace}',
+            args=f'_host:={ip} _port:={base_port + i} _body:=umh_{i} _namespace:={namespace}'
         )
         launch.launch(node)
 
