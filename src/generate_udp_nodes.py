@@ -5,6 +5,7 @@ import roslaunch
 import os
 
 def main():
+    pid = os.getpid()
     rospy.init_node('generate_udp_nodes', anonymous=True)
     
     number_of_nodes = rospy.get_param('~number_of_nodes', 2)
@@ -12,7 +13,6 @@ def main():
     ip = rospy.get_param('~ip', '10.205.3.224')
     base_port = rospy.get_param('~base_port', 9876)
     namespace = rospy.get_param('~namespace', 'optitrack')
-    pid = os.getpid()
 
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
     roslaunch.configure_logging(uuid)

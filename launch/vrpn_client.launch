@@ -1,7 +1,8 @@
 <launch>
-
+  <!-- OptiTrack Arguments -->
   <arg name="server" default="10.205.3.3"/>
 
+  <!-- Launch the OptiTrack VRPN Client -->
   <node pkg="vrpn_client_ros" type="vrpn_client_node" name="optitrack" output="screen">
     <rosparam subst_value="true">
       server: $(arg server)

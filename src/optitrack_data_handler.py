@@ -29,8 +29,7 @@ class desired_output:
         return self
 
 sock = None
-last_position = {'x': 0.0, 'y':0.0, 'z':0.0, 'w':0.0}
-
+last_position = {'x': 0.0, 'y': 0.0, 'z': 0.0, 'w': 0.0}
 
 def quaternion_to_euler(data: PoseStamped):
     # quaternion to euler z == the heading
@@ -54,12 +53,12 @@ def quaternion_to_euler(data: PoseStamped):
 
     return [X, Y, Z]
 
-def send_udp_message(host, port, message):
+def send_udp_message(host, port, message, name):
     global sock
     if sock is None:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.sendto(message.encode(), (host, port))
-    rospy.loginfo(f"UDP message sent to {host}:{port}: {message}")
+    rospy.loginfo(f"{name} Pose sent to {host}:{port}: {message}")
 
 def has_position_changed(new_position, threshold=0.001):
     global last_position
@@ -74,11 +73,11 @@ def update_position(new_position, data):
     last_position = new_position
     return data
 
-
 def callback(data):
     #time.sleep(0.001)
     host = rospy.get_param('~host')
     port = rospy.get_param('~port')
+    name = rospy.get_param('~body')
 
     new_position = {
         'x': round(data.pose.position.x,4),
@@ -91,7 +90,7 @@ def callback(data):
         data = update_position(new_position, data)
         desired_output_t = desired_output().create(data, quaternion_to_euler(data))
         message = f"[{desired_output_t.x},{desired_output_t.y},{desired_output_t.z},{desired_output_t.w}]"
-        send_udp_message(host, port, message)
+        send_udp_message(host, port, message, name)
 
 def listener():
     rospy.init_node('optitrack_data', anonymous=True)

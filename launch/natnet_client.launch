@@ -1,0 +1,15 @@
+<launch>
+  <!-- OptiTrack Arguments -->
+  <arg name="serverIP" default="10.205.3.3"/>
+  <arg name="clientIP" default="10.205.3.254"/>
+
+  <!-- Launch the OptiTrack NatNet Client -->
+  <include file="$(find natnet_ros_cpp)/launch/natnet_ros.launch">
+    <arg name="serverIP" value="$(arg serverIP)"/>
+    <arg name="clientIP" value="$(arg clientIP)"/>
+    <arg name="pub_rigid_body" default="true"/> 
+    <arg name="pub_rigid_body_marker" default="false"/>  
+    <arg name="pub_individual_marker" default="false"/>
+    <arg name="pub_pointcloud" default="false"/>
+  </include>
+</launch>
