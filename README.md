@@ -14,6 +14,7 @@ git clone https://github.com/IE-Robotics-Lab/optitrack_ros_communication.git
 cd CATKIN_WORKSPACE_NAME
 catkin_build
 ```
+Note: Follow additional guide for Motive Software settings in [NatNet ROS Repository](https://github.com/L2S-lab/natnet_ros_cpp)
 
 ## Option 2. Set-up VRPN:
 1. Install VRPN Package into the ROS environment. Run the following command in your terminal:
