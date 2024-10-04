@@ -58,7 +58,7 @@ def send_udp_message(host, port, message, name):
     if sock is None:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.sendto(message.encode(), (host, port))
-    rospy.loginfo(f"{name} Pose sent to {host}:{port}: {message}")
+    # rospy.loginfo(f"{name} Pose sent to {host}:{port}: {message}")
 
 def has_position_changed(new_position, threshold=0.001):
     global last_position
