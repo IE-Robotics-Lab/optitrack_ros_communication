@@ -12,7 +12,7 @@ cd CATKIN_WORKSPACE_NAME/src
 git clone https://github.com/L2S-lab/natnet_ros_cpp
 git clone https://github.com/IE-Robotics-Lab/optitrack_ros_communication.git
 cd CATKIN_WORKSPACE_NAME
-catkin_build
+catkin_make
 ```
 Note: Follow additional guide for Motive Software settings in [NatNet ROS Repository](https://github.com/L2S-lab/natnet_ros_cpp)
 
@@ -26,7 +26,7 @@ sudo apt install ros-$(rosversion -d)-vrpn-client-ros
 cd CATKIN_WORKSPACE_NAME/src
 git clone https://github.com/IE-Robotics-Lab/optitrack_ros_communication.git
 cd CATKIN_WORKSPACE_NAME
-catkin_build
+catkin_make
 ```
 
 ## Run
